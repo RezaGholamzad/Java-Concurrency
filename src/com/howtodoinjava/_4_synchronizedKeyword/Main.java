@@ -21,5 +21,15 @@ public class Main {
 
         new Thread(runnable, "ONE").start();
         new Thread(runnable, "TWO").start();
+
+//        in java 8
+//        new Thread(() -> {
+//            try {
+//                math.printNumbers(3);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
+
     }
 }
