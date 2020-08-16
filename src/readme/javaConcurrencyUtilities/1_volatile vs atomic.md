@@ -16,7 +16,9 @@ variable and see if its still true:
 boolean printer_running = true;
  
 while(printer_running) {
+
     //do something
+    
 }
 
 In a multi-threaded system this code may not work correctly. If some other thread accesses 
@@ -30,7 +32,9 @@ be visible to all other threads at once:
 volatile boolean printer_running = true;
  
 while(printer_running) {
+
     //do something
+    
 }
 
 This is an example of volatile variable without synchronization. This means that 
@@ -42,16 +46,27 @@ In order for the code to be bullet-proof we need to synchronize the block perfor
 operations on volatile variables:
 
 class Foo {
+
   private volatile boolean printer_running = true;
+  
   public boolean getStatus() {
+  
     if (printer_running) {
+    
       synchronized(this) {
+      
         while(printer_running) {
+        
             //do something
+            
         }
+        
       }
+      
     }
+    
   return printer_running;
+  
 }
 
 This code is an example of a double-checked locking or volatile variable with synchronization. 
@@ -87,8 +102,11 @@ access the boolean value simultaneously:
 boolean initialized = false;
  
 if (!initialized) {
+
    initialize();
+   
    initialized = true;
+   
 }
 
 This code is not thread safe. If a thread changes the value of initialized Boolean, 
@@ -98,7 +116,9 @@ rescue us from this situation:
 AtomicBoolean atomicInitialized = new AtomicBoolean ();
  
 if (atomicInitialized.compareAndSet(false, true)) {
+
     initialize();
+    
 }
 
 Compare and set is a function defined in Java, which compare 2 values and then swap them. 
@@ -111,11 +131,17 @@ Atomic reference is another techniques used in Java to do thread safe operations
 The main purpose of atomic referencing is also synchronization: 
 
 AtomicReference<Object> cache = new AtomicReference<Object>();
+
 Object cachedValue = new Object();
+
 cache.set(cachedValue);
+
 Object cachedValueToUpdate = cache.get();
+
 //... do some work to transform cachedValueToUpdate into a new version
+
 Object newValue = someFunctionOfOld(cachedValueToUpdate);
+
 boolean success = cache.compareAndSet(cachedValue,cachedValueToUpdate);
 
 As you can see, that due to atomic referencing, the synchronizations done 
@@ -134,7 +160,9 @@ It also provides a compare and swap instruction support.
 private volatile int counter;
  
 public int getNextUniqueIndex() {
+
     return counter++;
+    
 }
 
 In this example, multiple threads can change the counter variable and data integrity affected. 
@@ -143,7 +171,9 @@ Below is the example of using Atomic Integer:
 private AtomicInteger counter;
  
 public int getNextUniqueIndex() {
+
     return counter.getAndIncrement();
+    
 }
 
 The beauty of atomic int is that it is tread safe, and it cannot violate the thread safety 
