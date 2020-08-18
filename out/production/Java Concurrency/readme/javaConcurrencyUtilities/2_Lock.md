@@ -30,5 +30,14 @@ so other threads can lock it.
  The synchronized block must be fully contained within a single method. 
  A Lock can have its calls to lock() and unlock() in separate methods.
  
+ *********************************
  
+ You have to be very careful with the use of Locks to avoid deadlocks . 
+ This situation occurs when two or more threads blocked waiting for locks 
+ that will never be unlocked. For example, a thread (A) locks a Lock (X), and a 
+ thread (B) locks a Lock (Y). If now, the thread (A) tries to lock the Lock (Y), and 
+ the thread (B) simultaneously tries to lock the Lock (X), both threads will be 
+ blocked indefinitely, because they are waiting for locks that will never be 
+ liberated. Note that the problem occurs, because both threads try to get 
+ the locks in the opposite order.
 
