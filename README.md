@@ -14,6 +14,8 @@ If you see this pattern, she is working on multiple things at once by RAPID CONT
 
 This property of single core(my mom) working on multiple things at once by rapidly switching the context is called concurrency.
 
+**************************************
+
 So what is parallelism?
 
 At this point by seeing how hard my mom is working, my grand mom came into picture.
@@ -26,6 +28,8 @@ Concurrency and parallelism are two related but distinct concepts. Concurrency m
 
 There are various different ways of accomplishing concurrency. One of them is parallelism--having multiple CPUs working on the different tasks at the same time, But that's not the only way. Another is by task switching, which works like this: Task A works up to a certain point, then the CPU working on it stops and switches over to task B, works on it for a while, and then switches back to task A. If the time slices are small enough, it may appear to the user that both things run in parallel, even though they're actually being processed in serial by a multitasking CPU.
 
+**************************************
+
 What Is Multithreading Programming?
 
 Multithreading refers to the concurrent/parallel execution of more than one sequential set (thread) of instructions.
@@ -33,6 +37,8 @@ Multithreading refers to the concurrent/parallel execution of more than one sequ
 On a single processor, multithreading gives the illusion of running in parallel. In reality, the processor is switching by using a scheduling algorithm. Or, it’s switching based on a combination of external inputs (interrupts) and how the threads have been prioritized.
 
 On multiple processor cores, threads are truly parallel. Individual microprocessors work together to achieve the result more efficiently. There are multiple parallel, concurrent tasks happening at once.
+
+**************************************
 
 What Is Asynchronous Programming?
 
@@ -43,6 +49,8 @@ In async, you write code as tasks which are executed concurrently. You never kno
 An asynchronous model allows multiple things to happen at the same time. When your program calls a long-running function, it doesn’t block the execution flow, and your program continues to run. When the function finishes, the program knows and gets access to the result (if there’s a need for that).
 
 One approach to asynchronous programming is to make functions that perform a slow action and take an extra argument, a callback function. The action started, and when it finishes, the callback function called with the result.
+
+**************************************
 
 Asynchronous vs Multithreading :
 
@@ -57,6 +65,8 @@ Async is when you say to your friend, “You go to the store and buy pasta. Let 
 Threading is, “You boil the water. I’ll heat the tomato sauce. While the water is boiling, ask me that I’ll put the pasta in. When the sauce is hot, you can add cheese. When both are done, I’ll sit down, and you serve dinner. Then we eat.”. In the threading analogy, we can see the sequence of “When, Do” events, which represent the sequential set of instructions per each person (thread).
 
 From that analogy, we can conclude that Multithreading is about workers, Asynchronous is about tasks.
+
+**************************************
 
 Which One To Use?
 
