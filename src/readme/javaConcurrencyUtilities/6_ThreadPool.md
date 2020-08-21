@@ -39,7 +39,8 @@ java.util.concurrent.Executors interface:
 
 1) Fixed thread pool executor – Creates a thread pool that reuses a fixed number 
 of threads to execute any number of tasks. If additional tasks submitted when 
-all threads are active, they will wait in the queue until a thread is available. 
+all threads are active, they will wait in the queue until a thread is available.
+so it can only execute one task at a time.
 It is the best fit for most off the real-life use-cases : 
 
 ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
@@ -86,13 +87,35 @@ a ScheduledFuture that becomes enabled after the given delay.
 3) ScheduledFuture scheduleAtFixedRate(Runnable command, long initialDelay, 
 long delay, TimeUnit unit) – Creates and executes a periodic action that becomes enabled 
 first after the given initial delay, and subsequently with the given delay period. 
-If any execution of this task takes longer than its period, then subsequent executions 
-may start late, but will not concurrently execute.
+An important point to consider is that the period between two executions is the period 
+between these two executions that begins. If you have a periodic task that takes 5 seconds 
+to execute, and you put a period of 3 seconds, you will have two instances of 
+the task executing at a time.
+
+For example, suppose I schedule an alarm to go off with a fixed rate of once an hour, 
+and every time it goes off, I have a cup of coffee, which takes 10 minutes. 
+Suppose that starts at midnight, I'd have:
+
+00:00: Start making coffee
+00:10: Finish making coffee
+01:00: Start making coffee
+01:10: Finish making coffee
+02:00: Start making coffee
+02:10: Finish making coffee
 
 4) ScheduledFuture scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, 
 TimeUnit unit) – Creates and executes a periodic action that becomes enabled first after 
-the given initial delay, and subsequently with the given delay period. No matter how much time 
+the given initial delay, and subsequently with the given delay period between the termination 
+of one execution and the commencement of the next. No matter how much time 
 a long-running task takes, there will be a fixed delay time gap between two executions.
+
+example : 
+00:00: Start making coffee
+00:10: Finish making coffee
+01:10: Start making coffee
+01:20: Finish making coffee
+02:20: Start making coffee
+02:30: Finish making coffee
 
 #summery : 
 
