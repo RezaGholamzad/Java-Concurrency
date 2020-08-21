@@ -16,7 +16,7 @@ This property of single core(my mom) working on multiple things at once by rapid
 
 **************************************
 
-So what is parallelism?
+#So what is parallelism?
 
 At this point by seeing how hard my mom is working, my grand mom came into picture.
 
@@ -30,7 +30,7 @@ There are various different ways of accomplishing concurrency. One of them is pa
 
 **************************************
 
-What Is Multithreading Programming?
+#What Is Multithreading Programming?
 
 Multithreading refers to the concurrent/parallel execution of more than one sequential set (thread) of instructions.
 
@@ -40,7 +40,7 @@ On multiple processor cores, threads are truly parallel. Individual microprocess
 
 **************************************
 
-What Is Asynchronous Programming?
+#What Is Asynchronous Programming?
 
 In a concurrent execution, context switching happen rapidly and is not on an event basis. Asynchronous programming is mostly event driven.
 
@@ -52,7 +52,7 @@ One approach to asynchronous programming is to make functions that perform a slo
 
 **************************************
 
-Asynchronous vs Multithreading :
+#Asynchronous vs Multithreading :
 
 From the definitions we just provided, we can see that multithreading programming is all about concurrent execution of different functions. Async programming is about non-blocking execution between functions, and we can apply async with single-threaded or maltreated programming.
 
@@ -68,7 +68,7 @@ From that analogy, we can conclude that Multithreading is about workers, Asynchr
 
 **************************************
 
-Which One To Use?
+#Which One To Use?
 
 Choosing between the two programming models depends mainly on performance.
 
