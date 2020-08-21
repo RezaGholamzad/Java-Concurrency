@@ -62,4 +62,45 @@ Below statement creates a thread pool executor with minimum thread count 10, max
 
 ExecutorService executorService = 
     new ThreadPoolExecutor(10, 100, 5L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+    
+#shutdown ExecutorService : 
+
+The final and most important thing that many developers miss is shutting down the ExecutorService. 
+The ExecutorService is created, and it has Thread elements.
+
+Remember that the JVM stops only when all non-daemon threads stopped. Here not shutting down 
+the executor service simply prevents the JVM from stopping.
+
+In above examples, if we comment out the executor.shutdownNow() method call, then even after all 
+tasks executed, main thread remains active and JVM does not stop.
+
+To tell the executor service that there is no need for the threads it has, we will 
+have shutdown the service.
+
+There are three methods to invoke the shutdown:
+
+1) void shutdown() – Initiates an orderly shutdown in which previously submitted 
+tasks executed, but no new tasks will be accepted.
+
+2) List<Runnable> shutdownNow() – Attempts to stop all actively executing tasks, 
+halts the processing of waiting tasks, and returns a list of the tasks that 
+were awaiting execution.
+
+3) void awaitTermination() – It blocks until all tasks have completed execution after a 
+shutdown request, or the timeout occurs, or the current thread interrupted, 
+whichever happens first.
+
+#Conclusion : 
+
+As discussed above, helps in minimizing the boiler plate code which is a good thing. 
+It also helps in better resource management by internally utilizing 
+a thread pool.ExecutorService
+
+Still, programmers should be careful to avoid some common mistakes. E.g. always shutdown 
+the executor service after tasks completed and service is no longer needed. 
+Otherwise, JVM will never terminate, normally.
+
+Similarly, while creating its instance, be mindful of the configured thread pool capacity. 
+Here or any other implementation, a careless thread pool size can halt the system and 
+bring performance down.
 
