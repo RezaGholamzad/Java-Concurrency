@@ -39,7 +39,8 @@ java.util.concurrent.Executors interface:
 
 1) Fixed thread pool executor – Creates a thread pool that reuses a fixed number 
 of threads to execute any number of tasks. If additional tasks submitted when 
-all threads are active, they will wait in the queue until a thread is available. 
+all threads are active, they will wait in the queue until a thread is available.
+so it can only execute one task at a time.
 It is the best fit for most off the real-life use-cases : 
 
 ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
@@ -86,13 +87,84 @@ a ScheduledFuture that becomes enabled after the given delay.
 3) ScheduledFuture scheduleAtFixedRate(Runnable command, long initialDelay, 
 long delay, TimeUnit unit) – Creates and executes a periodic action that becomes enabled 
 first after the given initial delay, and subsequently with the given delay period. 
-If any execution of this task takes longer than its period, then subsequent executions 
-may start late, but will not concurrently execute.
+An important point to consider is that the period between two executions is the period 
+between these two executions that begins. If you have a periodic task that takes 5 seconds 
+to execute, and you put a period of 3 seconds, you will have two instances of 
+the task executing at a time.
+
+For example, suppose I schedule an alarm to go off with a fixed rate of once an hour, 
+and every time it goes off, I have a cup of coffee, which takes 10 minutes. 
+Suppose that starts at midnight, I'd have:
+
+00:00: Start making coffee
+00:10: Finish making coffee
+01:00: Start making coffee
+01:10: Finish making coffee
+02:00: Start making coffee
+02:10: Finish making coffee
 
 4) ScheduledFuture scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, 
 TimeUnit unit) – Creates and executes a periodic action that becomes enabled first after 
-the given initial delay, and subsequently with the given delay period. No matter how much time 
+the given initial delay, and subsequently with the given delay period between the termination 
+of one execution and the commencement of the next. No matter how much time 
 a long-running task takes, there will be a fixed delay time gap between two executions.
+
+example : 
+00:00: Start making coffee
+00:10: Finish making coffee
+01:10: Start making coffee
+01:20: Finish making coffee
+02:20: Start making coffee
+02:30: Finish making coffee
+
+#summery : 
+
+1) The ThreadPoolExecutor class has four different constructors but, due to their complexity, 
+the Java concurrency API provides the Executors class to construct executors and other 
+related objects. Although we can create ThreadPoolExecutor directly using one of 
+its constructors, it’s recommended to use the Executors class.
+
+2) The cached thread pool, creates new threads if needed to execute the new tasks, 
+and reuses the existing ones if they have finished the execution of the task 
+they were running, which are now available. The cached thread pool has, however, 
+a disadvantage of constant lying threads for new tasks, so if you send too many tasks 
+to this executor, you can overload the system. This can be overcome using fixed thread pool.
+
+3) One critical aspect of the ThreadPoolExecutor class, and of the executors in general, 
+is that you have to end it explicitly. If you don’t do this, the executor will continue 
+its execution, and the program won’t end. If the executor doesn’t have tasks to execute, 
+it continues waiting for new tasks, and it doesn’t end its execution. A Java application 
+won’t end until all its non-daemon threads finish their execution, so, if you don’t terminate 
+the executor, your application will never end.
+
+4) To indicate to the executor that you want to finish it, you can use the shutdown() method 
+of the ThreadPoolExecutor class. When the executor finishes the execution of all pending tasks, 
+it finishes its execution. After you call the shutdown() method, if you try to send another task 
+to the executor, it will be rejected, and the executor will 
+throw a RejectedExecutionException exception.
+
+5) The ThreadPoolExecutor class provides a lot of methods to obtain information about its status. 
+We used in the example the getPoolSize(), getActiveCount(), and getCompletedTaskCount() methods 
+to obtain information about the size of the pool, the number of threads, and the number of completed 
+tasks of the executor. You can also use the getLargestPoolSize() method that returns the maximum 
+number of threads that has been in the pool at a time.
+
+6) The ThreadPoolExecutor class also provides other methods related with the finalization 
+of the executor. These methods are:
+
+shutdownNow(): This method shutdowns the executor immediately. It doesn’t execute the pending tasks. 
+It returns a list with all these pending tasks. The tasks that are running when you call this method 
+continue with their execution, but the method doesn’t wait for their finalization.
+
+isTerminated(): This method returns true if you have called the shutdown() or shutdownNow() methods 
+and the executor finishes the process of shutting it down.
+
+isShutdown(): This method returns true if you have called the shutdown() method of the executor.
+
+awaitTermination(long timeout,TimeUnit unit): This method blocks the calling thread until the tasks 
+of the executor have ended, or the timeout occurs. The TimeUnit class is an enumeration with 
+the following constants: DAYS, HOURS, MICROSECONDS etc.
+
 
 
 
