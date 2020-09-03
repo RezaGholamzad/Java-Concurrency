@@ -97,10 +97,15 @@ and every time it goes off, I have a cup of coffee, which takes 10 minutes.
 Suppose that starts at midnight, I'd have:
 
 00:00: Start making coffee
+
 00:10: Finish making coffee
+
 01:00: Start making coffee
+
 01:10: Finish making coffee
+
 02:00: Start making coffee
+
 02:10: Finish making coffee
 
 4) ScheduledFuture scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, 
@@ -110,11 +115,17 @@ of one execution and the commencement of the next. No matter how much time
 a long-running task takes, there will be a fixed delay time gap between two executions.
 
 example : 
+
 00:00: Start making coffee
+
 00:10: Finish making coffee
+
 01:10: Start making coffee
+
 01:20: Finish making coffee
+
 02:20: Start making coffee
+
 02:30: Finish making coffee
 
 #summery : 
