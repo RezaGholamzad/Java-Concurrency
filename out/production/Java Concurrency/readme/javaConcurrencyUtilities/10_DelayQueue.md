@@ -36,3 +36,5 @@ and poll() will return null.
 Even though unexpired elements cannot be removed using take() or poll(), 
 they are otherwise treated as normal elements in the queue i.e. size() method returns 
 the count of both expired and unexpired elements.
+
+This queue does not permit null elements because their delay cannot be determined.
